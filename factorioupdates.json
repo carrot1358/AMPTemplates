@@ -27,26 +27,10 @@
         "UpdateStageName": "Factorio Download",
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "FetchURL",
-        "UpdateSourceData": "https://factorio.com/get-download/stable/headless/linux64",
+        "UpdateSourceData": "https://www.factorio.com/get-download/2.0.73/headless/linux64",
         "UpdateSourceArgs": "factorio.tar.xz",
         "UpdateSourceTarget": "{{$FullBaseDir}}",
         "OverwriteExistingFiles": true,
-        "UpdateSourceConditionSetting": "InstallBeta",
-        "UpdateSourceConditionValue": "false",
-        "SkipOnFailure": false
-    },
-    {
-        "UpdateStageName": "Factorio Download",
-        "UpdateSourcePlatform": "Linux",
-        "UpdateSource": "FetchURL",
-        "UpdateSourceData": "https://www.factorio.com/get-download/{{BetaBranch}}/headless/linux64",
-        "UpdateSourceArgs": "factorio.tar.xz",
-        "UpdateSourceTarget": "{{$FullBaseDir}}",
-        "UnzipUpdateSource": true,
-        "OverwriteExistingFiles": true,
-        "DeleteAfterExtract": true,
-        "UpdateSourceConditionSetting": "InstallBeta",
-        "UpdateSourceConditionValue": "true",
         "SkipOnFailure": false
     },
     {
