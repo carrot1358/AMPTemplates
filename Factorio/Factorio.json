@@ -1,0 +1,119 @@
+{
+  "Author": "CubeCoders (Hardcoded v2.0.73 Build)",
+  "ApplicationName": "Factorio",
+  "DisplayImageSource": "steam:427520",
+  "MetaPath": "Factorio",
+  "OS": 1,
+  "IsService": true,
+  "MinimumMemory": 512,
+  "RecommendedMemory": 2048,
+  "MemoryWarning": 0,
+  "ContainerReason": "",
+
+  "Endpoints": [
+    {
+      "DisplayName": "Game Port",
+      "Port": 34197,
+      "Protocol": "UDP",
+      "ProvisionInput": "GenericModule.App.GamePort",
+      "IsUserDefined": true
+    },
+    {
+      "DisplayName": "RCON Port",
+      "Port": 27015,
+      "Protocol": "TCP",
+      "ProvisionInput": "GenericModule.App.RCONPort",
+      "IsUserDefined": true
+    }
+  ],
+
+  "StartupSpec": {
+    "Executable": "factorio/bin/x64/factorio",
+    "Arguments": "--start-server-load-latest --server-settings server-settings.json --port {GenericModule.App.GamePort} --rcon-port {GenericModule.App.RCONPort} --rcon-password {GenericModule.App.RCONPassword}",
+    "WorkingDirectory": "./",
+    "StdInTerminationString": "/quit",
+    "StopCommand": ""
+  },
+
+  "UpdateStage": {
+    "StageDefinitions": [
+      {
+        "Id": "DownloadServer",
+        "FriendlyName": "Downloading Factorio 2.0.73 Headless Server",
+        "StageType": "DownloadFile",
+        "Parameters": {
+          "URL": "https://www.factorio.com/get-download/2.0.73/headless/linux64",
+          "FileName": "factorio_headless.tar.xz"
+        }
+      },
+      {
+        "Id": "ClearBin",
+        "FriendlyName": "Removing Old Binary Directory",
+        "StageType": "DeleteDirectory",
+        "Parameters": {
+          "Directory": "factorio/bin",
+          "IfExists": true
+        }
+      },
+      {
+        "Id": "ClearData",
+        "FriendlyName": "Removing Old Data Directory",
+        "StageType": "DeleteDirectory",
+        "Parameters": {
+          "Directory": "factorio/data",
+          "IfExists": true
+        }
+      },
+      {
+        "Id": "ExtractServer",
+        "FriendlyName": "Extracting Factorio 2.0.73 Server Files",
+        "StageType": "ExpandArchive",
+        "Parameters": {
+          "SourceFile": "factorio_headless.tar.xz",
+          "DestinationDirectory": "./",
+          "CleanupArchive": true
+        }
+      },
+      {
+        "Id": "SetExecutable",
+        "FriendlyName": "Setting Execute Permissions on Binary",
+        "StageType": "ShellScript",
+        "Parameters": {
+          "Script": "chmod +x factorio/bin/x64/factorio"
+        }
+      }
+    ]
+  },
+
+  "Configuration": [
+    {
+      "DisplayName": "Networking",
+      "Settings": [
+        {
+          "Node": "GenericModule.App.GamePort",
+          "Name": "Game Port",
+          "Description": "UDP port that clients connect to. Default: 34197.",
+          "Type": "Port",
+          "Default": "34197",
+          "ReadOnly": false
+        },
+        {
+          "Node": "GenericModule.App.RCONPort",
+          "Name": "RCON Port",
+          "Description": "TCP port used for RCON remote console access. Default: 27015.",
+          "Type": "Port",
+          "Default": "27015",
+          "ReadOnly": false
+        },
+        {
+          "Node": "GenericModule.App.RCONPassword",
+          "Name": "RCON Password",
+          "Description": "Password required to authenticate RCON connections. Leave blank to disable RCON.",
+          "Type": "Password",
+          "Default": "",
+          "ReadOnly": false
+        }
+      ]
+    }
+  ]
+}
